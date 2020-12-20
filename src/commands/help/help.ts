@@ -34,6 +34,7 @@ export default class HelpCommand extends Command {
             return message.channel.send(embed);
         }
 
+        if (command.ownerOnly) return;
         const embed = new this.client.embed().setMain()
             .setTitle(`\`${prefix}${command.aliases[0]}\` \`${command.description.usage ? command.description.usage : ''}\``)
             .addField('Description:' , `${command.description.content ? command.description.content : 'None provided'}`)

@@ -20,7 +20,6 @@ export default class Util {
             String(times.minutes).padStart(2, '0'),
             String(times.seconds).padStart(2, '0')
         ]
-            console.log(stringArr);
             let string = stringArr.filter((x, i) => x !== '00' || i === stringArr.length - 1).join(':');
         return { ...times, string };
     };

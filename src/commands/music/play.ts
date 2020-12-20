@@ -55,19 +55,23 @@ export default class PlayCommand extends Command {
                 if(!player.queue.current) player.destroy();
                 return message.reply(`could not find any results for: \`\`${query}\`\``);
             case 'TRACK_LOADED':
+                let isQueue = player.queue.current ? true : false;
                 player.queue.add(res.tracks[0]);
                 if(!player.playing && !player.queue.size && !player.paused) player.play();
-                return message.channel.send(new this.client.embed().setMain()
-                    .setTitle(`Song request from ${message.author.username}`)
-                    .setDescription(
-                        [
-                            `Song Name: [${res.tracks[0].title}](${res.tracks[0].uri})`,
-                            `Uploader: ${res.tracks[0].author}`,
-                            `Duration: ${Utils.msConversion(res.tracks[0].duration)?.string}`
-                        ].join('\n')
-                    )
-                    .setThumbnail(res.tracks[0].thumbnail)
-                );
+                if(isQueue) {
+                    return message.channel.send(new this.client.embed().setMain()
+                        .setTitle(`Song request from ${message.author.username}`)
+                        .setDescription(
+                            [
+                                `Song Name: [${res.tracks[0].title}](${res.tracks[0].uri})`,
+                                `Uploader: ${res.tracks[0].author}`,
+                                `Duration: ${Utils.msConversion(res.tracks[0].duration)?.string}`
+                            ].join('\n')
+                        )
+                        .setThumbnail(res.tracks[0].thumbnail)
+                    );
+                }
+                return;
             case 'PLAYLIST_LOADED':
                 player.queue.add(res.tracks);
                 if (!player.playing && !player.paused && player.queue.totalSize === res.tracks.length) player.play()
@@ -107,20 +111,23 @@ export default class PlayCommand extends Command {
                     if (index < 0 || index > maxResults - 1) return message.reply(`please provide a valid result selection (1 - ${maxResults})`);
 
                     const track = res.tracks[index];
+                    let isQueue = player.queue.current ? true : false;
                     player.queue.add(track);
-
                     if (!player.playing && !player.paused && !player.queue.size) player.play()
-                    return message.channel.send(new this.client.embed().setMain()
-                        .setTitle(`Song request from ${message.author.username}`)
-                        .setDescription(
-                            [
-                                `Song Name: [${track.title}](${track.uri})`,
-                                `Uploader: ${track.author}`,
-                                `Duration: ${Utils.msConversion(track.duration)?.string}`
-                            ].join('\n')
-                        )
-                        .setThumbnail(track.thumbnail)
-                    );
+                    if (isQueue) {
+                        return message.channel.send(new this.client.embed().setMain()
+                            .setTitle(`Song request from ${message.author.username}`)
+                            .setDescription(
+                                [
+                                    `Song Name: [${track.title}](${track.uri})`,
+                                    `Uploader: ${track.author}`,
+                                    `Duration: ${Utils.msConversion(track.duration)?.string}`
+                                ].join('\n')
+                            )
+                            .setThumbnail(track.thumbnail)
+                        );
+                    }
+                    return;
 
                 }).catch(() => {
                     message.reply('you took to long to make a selection')

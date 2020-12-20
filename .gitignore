@@ -1,6 +1,6 @@
 .env
-.bat
+start.bat
 tsconfig.json
-src/
+dist/
 node_modules/
 Lavalink/

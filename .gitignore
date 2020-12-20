@@ -1,0 +1,6 @@
+.env
+.bat
+tsconfig.json
+src/
+node_modules/
+Lavalink/

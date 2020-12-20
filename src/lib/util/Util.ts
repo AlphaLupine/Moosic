@@ -14,13 +14,14 @@ export default class Util {
             seconds: rounded(ms / 1000) % 60,
             milliseconds: rounded(ms) % 1000
         };
-        const string = [
-            +times.days ? times.days < 10 ? `0${times.days}` : times.days : "",
-            +times.hours ? times.hours < 10 ? `0${times.hours}` : times.hours : "",
-            +times.minutes ? times.minutes < 10 ? `0${times.minutes}` : times.minutes : "",
-            +times.seconds ? times.seconds < 10 ? `0${times.seconds}` : times.seconds : ""
+        let stringArr = [
+            String(times.days).padStart(2, '0'),
+            String(times.hours).padStart(2, '0'),
+            String(times.minutes).padStart(2, '0'),
+            String(times.seconds).padStart(2, '0')
         ]
-            .filter((x) => x).join(':');
+            console.log(stringArr);
+            let string = stringArr.filter((x, i) => x !== '00' || i === stringArr.length - 1).join(':');
         return { ...times, string };
     };
     /**

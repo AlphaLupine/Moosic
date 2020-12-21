@@ -4,3 +4,4 @@ tsconfig.json
 dist/
 node_modules/
 Lavalink/
+.idea

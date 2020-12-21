@@ -65,7 +65,7 @@ export default class PlayCommand extends Command {
                             [
                                 `Song Name: [${res.tracks[0].title}](${res.tracks[0].uri})`,
                                 `Uploader: ${res.tracks[0].author}`,
-                                `Duration: ${Utils.msConversion(res.tracks[0].duration)?.string}`
+                                `Duration: ${Utils.msConversion(res.tracks[0].duration)?.string}`,
                             ].join('\n')
                         )
                         .setThumbnail(res.tracks[0].thumbnail)
@@ -79,7 +79,7 @@ export default class PlayCommand extends Command {
                     .setTitle(`Playlist request from ${message.author.username}`)
                     .setDescription(
                         [
-                            `Playlist Name: [${res.playlist.title || 'No name found'}](${query})`,
+                            `Playlist Name: [${res.playlist.name || 'No name found'}](${query})`,
                             `Number of Tracks: ${res.tracks.length}`,
                             `Duration: ${Utils.msConversion(res.playlist.duration)?.string}`
                         ].join('\n')

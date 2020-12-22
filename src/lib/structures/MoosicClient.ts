@@ -41,7 +41,19 @@ export default class MoosicClient extends AkairoClient {
             prefix: '$',
             commandUtil: true,
             allowMention: true,
-            handleEdits: true
+            handleEdits: true,
+            argumentDefaults: {
+                prompt: {
+                    modifyStart: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
+                    modifyRetry: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
+                    modifyEnded: () => new MoosicEmbed().setMain().setDescription("You exceeded the retries threshold, so I've cancelled the prompt."),
+                    modifyCancel: () => new MoosicEmbed().setMain().setDescription("Cancelled the prompt successfully."),
+                    modifyTimeout: () => new MoosicEmbed().setMain().setDescription("You took a bit long there, so I've cancelled the prompt."),
+                    time: 15e3,
+                    retries: 3
+                },
+                otherwise: ""
+            }
         });
 
         this.inhibitorHandler = new InhibitorHandler(this, {
@@ -53,7 +65,7 @@ export default class MoosicClient extends AkairoClient {
             nodes: [
                 {
                     host: process.env.NODES_HOST!,
-                    port: 2333,
+                    port: Number(process.env.NODES_PORT),
                     password: process.env.NODES_PASS!
                 },
             ],

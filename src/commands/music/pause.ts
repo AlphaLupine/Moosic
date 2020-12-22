@@ -26,6 +26,10 @@ export default class PauseCommand extends Command {
 
         if (!player.queue.current) return message.reply('there is no music to pause')
 
+        if (player.paused) {
+            return message.channel.send("The player is already paused.")
+        }
+
         player.pause(true);
         message.channel.send(new this.client.embed().setMain()
             .setTitle(`Player paused by ${message.author.username}`)

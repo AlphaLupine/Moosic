@@ -10,19 +10,18 @@ export default class PlayCommand extends Command {
             description: {
                 content: 'Attempts to find lyrics for the current track',
             },
+            typing: true,
             category: 'music',
             args: [
                 {
                     id: "song",
-                    type: "string",
                     match: "content", // allow multiple arguments
                     default: (msg: Message) => {
                         const player = this.client.musicManager.get(msg.guild!.id)
-                        return player?.queue.current?.title ?? null;
+                        return player ? player.queue.current?.title : null;
                     },
                     prompt: {
-                        start: "Please provide a search query.",
-                        optional: true   
+                        optional: true
                     },
                 }
             ]
@@ -30,6 +29,10 @@ export default class PlayCommand extends Command {
     }
 
     async exec(message: Message, { song }: { song: string; }) {
+        if (!song) {
+            return message.util!.reply("please provide a search query");
+        }
+
         const json = await (
             await fetch(
                 `https://some-random-api.ml/lyrics?title=${encodeURIComponent(song)}`

@@ -26,6 +26,10 @@ export default class ResumeCommand extends Command {
 
         if (!player.queue.current) return message.reply('there is no music to pause')
 
+        if (!player.paused) {
+            return message.channel.send("The player isn't paused.")
+        }
+
         player.pause(false);
         message.channel.send(new this.client.embed().setMain()
             .setTitle(`Player resumed by ${message.author.username}`)

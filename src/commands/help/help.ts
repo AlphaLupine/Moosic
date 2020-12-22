@@ -39,7 +39,9 @@ export default class HelpCommand extends Command {
         );
       }
 
-      embed.setFooter(`Run ${prefix}help <command> for more infromation`);
+      embed
+        .setTitle("Help Menu")
+        .setFooter(`Run ${prefix}help <command> for more infromation`);
 
       return message.channel.send(embed);
     }

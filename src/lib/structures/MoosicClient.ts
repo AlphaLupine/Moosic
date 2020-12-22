@@ -39,9 +39,7 @@ export default class MoosicClient extends AkairoClient {
     public constructor() {
         super(
             {
-                ownerID: Array.isArray(process.env.OWNERIDS)
-                ? process.env.OWNERIDS
-                : process.env.OWNERIDS!.split(","),
+                ownerID: process.env.OWNERIDS!.split(","),
             },
             {
                 disableMentions: "everyone",

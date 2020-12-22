@@ -24,8 +24,8 @@ export default class MoosicClient extends AkairoClient {
         ],
         plugins: [
             new Spotify({
-                clientSecret: process.env.SPOTIFYCS as string,
-                clientID: process.env.SPOTIFYCID as string
+                clientID: process.env.SPOTIFYCID!,
+                clientSecret: process.env.SPOTIFYCS!
             })
         ],
         send: (id, payload) => {
@@ -39,7 +39,7 @@ export default class MoosicClient extends AkairoClient {
     public constructor() {
         super(
             {
-                ownerID: process.env.OWNERIDS!.split(","),
+                ownerID: process.env.OWNERIDS?.split(","),
             },
             {
                 disableMentions: "everyone",

@@ -2,12 +2,16 @@ import MoosicEmbed from '@lib/extensions/MoosicEmbed';
 import { Manager } from 'erela.js';
 import { Logger } from '@utils/Logger';
 
+import "discord-akairo";
+
 declare module 'discord-akairo' {
     interface AkairoClient {
+        commandHandler: CommandHandler;
+        listenerHandler: ListenerHandler;
+        inhibitorHandler: InhibitorHandler;
         musicManager: Manager;
         readonly embed: typeof MoosicEmbed;
         logger: Logger;
-
     }
 }
 

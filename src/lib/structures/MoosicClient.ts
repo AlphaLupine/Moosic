@@ -5,6 +5,17 @@ import Spotify from 'erela.js-spotify';
 import MoosicEmbed from '../extensions/MoosicEmbed';
 import { Logger } from '../util/Logger';
 
+declare module "discord-akairo" {
+    interface AkairoClient {
+        musicManager: Manager;
+        listenerHandler: ListenerHandler;
+        commandHandler: CommandHandler;
+        inhibitorHandler: InhibitorHandler;
+        readonly embed: typeof MoosicEmbed
+        logger: Logger
+    }
+}
+
 export default class MoosicClient extends AkairoClient {
 
     public listenerHandler:ListenerHandler;

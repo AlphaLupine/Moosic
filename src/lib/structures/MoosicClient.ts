@@ -24,8 +24,8 @@ export default class MoosicClient extends AkairoClient {
         ],
         plugins: [
             new Spotify({
-                clientSecret: process.env.SPOTIFYCID as string,
-                clientID: process.env.SPOTIFYCS as string
+                clientSecret: process.env.SPOTIFYCS as string,
+                clientID: process.env.SPOTIFYCID as string
             })
         ],
         send: (id, payload) => {
@@ -80,6 +80,12 @@ export default class MoosicClient extends AkairoClient {
     public run() {
         this.commandHandler.useListenerHandler(this.listenerHandler);
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
+
+        this.listenerHandler.setEmitters({
+            commandHandler: this.commandHandler,
+            listenerHandler: this.listenerHandler,
+            musicManager: this.musicManager,
+        });
 
         [
           this.commandHandler,

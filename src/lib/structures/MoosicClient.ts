@@ -5,23 +5,28 @@ import {
   InhibitorHandler,
 } from "discord-akairo";
 import { join } from "path";
-import { Manager } from "erela.js";
+import { Manager, NodeOptions } from "erela.js";
 import Spotify from "erela.js-spotify";
 import MoosicEmbed from "../extensions/MoosicEmbed";
 import { Logger } from "../util/Logger";
+
+const nodeIdentifiers: string[] = [
+    "twinkle toes",
+    "ned",
+    "beans on pane di casa",
+    "winston",
+    "lana",
+    "lizzy",
+    "llama"
+]
+
 
 export default class MoosicClient extends AkairoClient {
     public logger = new Logger();
     public readonly embed = MoosicEmbed;
 
     public musicManager = new Manager({
-        nodes: [
-            {
-                host: process.env.NODES_HOST!,
-                port: Number(process.env.NODES_PORT) ?? 2333,
-                password: process.env.NODES_PASS,
-            },
-        ],
+        nodes: this.createNodes(nodeIdentifiers),
         plugins: [
             new Spotify({
                 clientID: process.env.SPOTIFYCID!,
@@ -92,5 +97,19 @@ export default class MoosicClient extends AkairoClient {
         ].map((handler) => handler.loadAll());
 
         return this.login(process.env.TOKEN)
+    }
+
+    public createNodes(names: string[]) {
+        const nodes: NodeOptions[] = [];
+        for(const name of names) {
+            const node = {
+                identifier: name,
+                host: process.env.NODES_HOST!,
+                port: Number(process.env.NODES_PORT) ?? 2333,
+                password: process.env.NODES_PASS
+            }
+            nodes.push(node)
+        }
+        return nodes
     }
 }

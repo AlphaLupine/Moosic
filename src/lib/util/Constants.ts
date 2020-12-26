@@ -4,3 +4,13 @@ export const enum Colours {
     Success = "#32CD32",
     Caution = "#FF8C00"
 }
+
+export const NodeIdentifiers = [
+    "twinkle toes",
+    "ned",
+    "beans on pane di casa",
+    "winston",
+    "lana",
+    "lizzy",
+    "llama"
+]

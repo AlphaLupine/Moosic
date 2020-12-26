@@ -3,6 +3,7 @@ import { Manager } from 'erela.js';
 import { Logger } from '@utils/Logger';
 
 import "discord-akairo";
+import NowPlayingCache from "@utils/MusicUtilClasses/NowPlayingCache";
 
 declare module 'discord-akairo' {
     interface AkairoClient {
@@ -12,6 +13,7 @@ declare module 'discord-akairo' {
         musicManager: Manager;
         readonly embed: typeof MoosicEmbed;
         logger: Logger;
+        NowPlayingCache: NowPlayingCache;
     }
 }
 

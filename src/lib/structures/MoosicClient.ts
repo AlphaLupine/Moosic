@@ -9,24 +9,17 @@ import { Manager, NodeOptions } from "erela.js";
 import Spotify from "erela.js-spotify";
 import MoosicEmbed from "../extensions/MoosicEmbed";
 import { Logger } from "../util/Logger";
-
-const nodeIdentifiers: string[] = [
-    "twinkle toes",
-    "ned",
-    "beans on pane di casa",
-    "winston",
-    "lana",
-    "lizzy",
-    "llama"
-]
+import { NodeIdentifiers } from "../util/Constants";
+import NowPlayingCache from "../util/MusicUtilClasses/NowPlayingCache";
 
 
 export default class MoosicClient extends AkairoClient {
     public logger = new Logger();
     public readonly embed = MoosicEmbed;
+    public NowPlayingCache = new NowPlayingCache();
 
     public musicManager = new Manager({
-        nodes: this.createNodes(nodeIdentifiers),
+        nodes: this.createNodes(NodeIdentifiers),
         plugins: [
             new Spotify({
                 clientID: process.env.SPOTIFYCID!,

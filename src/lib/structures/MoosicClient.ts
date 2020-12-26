@@ -18,6 +18,34 @@ export default class MoosicClient extends AkairoClient {
     public readonly embed = MoosicEmbed;
     public NowPlayingCache = new NowPlayingCache();
 
+    public listenerHandler = new ListenerHandler(this, {
+        directory: join(process.cwd(), "dist", "listeners")
+    });
+
+    public commandHandler = new CommandHandler(this, {
+        directory: join(process.cwd(), "dist", "commands"),
+        prefix: "$",
+        allowMention: true,
+        argumentDefaults: {
+            prompt: {
+                modifyStart: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
+                modifyRetry: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
+                modifyEnded: () => new MoosicEmbed().setMain().setDescription("You exceeded the retries threshold, so I've cancelled the prompt."),
+                modifyCancel: () => new MoosicEmbed().setMain().setDescription("Cancelled the prompt successfully."),
+                timeout: new MoosicEmbed().setMain().setDescription("You took a bit long there, so I've cancelled the prompt."),
+                time: 15e3,
+                retries: 3
+            },
+            otherwise: ""
+        },
+        commandUtil: true,
+        handleEdits: true,
+    });
+
+    public inhibitorHandler = new InhibitorHandler(this, {
+        directory: join(process.cwd(), "dist", "inhibitors")
+    });
+
     public musicManager = new Manager({
         nodes: this.createNodes(NodeIdentifiers),
         plugins: [
@@ -45,34 +73,6 @@ export default class MoosicClient extends AkairoClient {
         );
     }
 
-    public listenerHandler: ListenerHandler = new ListenerHandler(this, {
-        directory: join(process.cwd(), "dist", "listeners")
-    });
-
-    public commandHandler: CommandHandler = new CommandHandler(this, {
-        directory: join(process.cwd(), "dist", "commands"),
-        prefix: "$",
-        allowMention: true,
-        argumentDefaults: {
-            prompt: {
-                modifyStart: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
-                modifyRetry: (_, text) => new MoosicEmbed().setMain().setDescription(text).setFooter("Type 'cancel' to cancel this prompt."),
-                modifyEnded: () => new MoosicEmbed().setMain().setDescription("You exceeded the retries threshold, so I've cancelled the prompt."),
-                modifyCancel: () => new MoosicEmbed().setMain().setDescription("Cancelled the prompt successfully."),
-                timeout: new MoosicEmbed().setMain().setDescription("You took a bit long there, so I've cancelled the prompt."),
-                time: 15e3,
-                retries: 3
-            },
-            otherwise: ""
-        },
-        commandUtil: true,
-        handleEdits: true,
-    });
-
-    public inhibitorHandler: InhibitorHandler = new InhibitorHandler(this, {
-        directory: join(process.cwd(), "dist", "inhibitors")
-    });
-
     public run() {
         this.commandHandler.useListenerHandler(this.listenerHandler);
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler);
@@ -83,11 +83,9 @@ export default class MoosicClient extends AkairoClient {
             musicManager: this.musicManager,
         });
 
-        [
-          this.commandHandler,
-          this.listenerHandler,
-          this.inhibitorHandler,
-        ].map((handler) => handler.loadAll());
+        this.commandHandler.loadAll();
+        this.listenerHandler.loadAll();
+        this.inhibitorHandler.loadAll();
 
         return this.login(process.env.TOKEN)
     }

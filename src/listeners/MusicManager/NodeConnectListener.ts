@@ -10,6 +10,6 @@ export default class NodeConnectListener extends Listener {
     }
 
     exec(node:Node) {
-       this.client.logger.log(`Node ${node.options.identifier} successfully connected`)
+       this.client.logger.info("NodeConnect", `Node ${node.options.identifier} successfully connected`)
     }
 }

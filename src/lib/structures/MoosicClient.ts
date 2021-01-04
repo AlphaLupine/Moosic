@@ -8,13 +8,21 @@ import { join } from "path";
 import { Manager, NodeOptions } from "erela.js";
 import Spotify from "erela.js-spotify";
 import MoosicEmbed from "../extensions/MoosicEmbed";
-import { Logger } from "../util/Logger";
+import { Logger } from "@nedbot/logger";
 import { NodeIdentifiers } from "../util/Constants";
 import NowPlayingCache from "../util/MusicUtilClasses/NowPlayingCache";
 
 
+
 export default class MoosicClient extends AkairoClient {
-    public logger = new Logger();
+    public logger = new Logger({
+        logFileDirectory: "./logs",
+        infoLogFileName: "moosic.log",
+        errorLogFileName: "error.log",
+        enableConsoleLogs: true,
+        enableInfoLogs: true,
+        enableErrorLogs: true
+    });
     public readonly embed = MoosicEmbed;
     public NowPlayingCache = new NowPlayingCache();
 

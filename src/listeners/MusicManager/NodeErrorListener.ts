@@ -10,6 +10,6 @@ export default class NodeErrorListener extends Listener {
     }
 
     exec(node:Node, error:string) {
-       this.client.logger.error(`Node ${node.options.identifier}:`, error)
+       this.client.logger.error("NodeError",`Node ${node.options.identifier}:`, error)
     }
 }

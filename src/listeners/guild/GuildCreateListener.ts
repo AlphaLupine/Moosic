@@ -10,6 +10,6 @@ export default class GuildCreateListener extends Listener {
     }
 
     exec(guild:Guild) {
-        this.client.logger.info(`${this.client.user!.username} just joined a new Guild: ${guild.name} | ${guild.id}`);
+        this.client.logger.info("GuildCreate",`${this.client.user!.username} just joined a new Guild: ${guild.name} | ${guild.id}`);
     }
 }

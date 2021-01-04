@@ -1,6 +1,6 @@
 import MoosicEmbed from '@lib/extensions/MoosicEmbed';
 import { Manager } from 'erela.js';
-import { Logger } from '@utils/Logger';
+import { Logger } from '@nedbot/logger';
 
 import "discord-akairo";
 import NowPlayingCache from "@utils/MusicUtilClasses/NowPlayingCache";

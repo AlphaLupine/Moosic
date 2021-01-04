@@ -19,7 +19,7 @@ export default class SkipCommand extends Command {
         const voiChannel = message.member?.voice.channel;
 
         const player: Player = this.client.musicManager.get(guild)!;
-        if (!player) message.reply('there is no player in this guild');
+        if (!player) return message.reply('there is no player in this guild');
 
         if (!voiChannel) return message.reply('I cannot find you voice channel');
         if (voiChannel.id !== player.voiceChannel) return message.reply('You are not in my voice channel');
